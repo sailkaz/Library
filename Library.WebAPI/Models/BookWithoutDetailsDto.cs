@@ -1,0 +1,9 @@
+﻿namespace Library.WebAPI.Models
+{
+    public class BookWithoutDetailsDto
+    {
+        public int Id { get; set; }
+
+        public string Title { get; set; } = string.Empty;
+    }
+}
