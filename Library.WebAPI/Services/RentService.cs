@@ -36,8 +36,8 @@ namespace Library.WebAPI.Services
                 await SetBookStatus(book.Id);
             }
 
-            rentToAdd.RentDate = DateTime.Today;
-            rentToAdd.ReturnDate = rentToAdd.RentDate.AddMonths(1);
+            //rentToAdd.RentDate = DateTime.Today;
+            //rentToAdd.ReturnDate = rentToAdd.RentDate.AddMonths(1);
             _unitOfWork.RentRepository.AddRent(rentToAdd);
 
             _unitOfWork.Complete();

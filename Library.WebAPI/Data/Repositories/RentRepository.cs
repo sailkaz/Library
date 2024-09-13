@@ -17,8 +17,8 @@ namespace Library.WebAPI.Data.Repositories
 
         public void AddRent(Rent rentToAdd)
         {
-            //rentToAdd.RentDate = DateTime.Today;
-            //rentToAdd.ReturnDate = rentToAdd.RentDate.AddMonths(1);
+            rentToAdd.RentDate = DateTime.Today;
+            rentToAdd.ReturnDate = rentToAdd.RentDate.AddMonths(1);
             _context.Rents.Add(rentToAdd);
         }
     }
