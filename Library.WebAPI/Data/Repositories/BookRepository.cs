@@ -43,5 +43,16 @@ namespace Library.WebAPI.Data.Repositories
         {
             return await _context.Books.AnyAsync(x => x.Id == bookId);
         }
+
+        public async Task<Book> GetBookByIdForCheckStatusAsync(int bookId)
+        {
+            return await _context.Books.AsNoTracking().FirstOrDefaultAsync(x => x.Id == bookId);
+        }
+
+        public async Task SetBookStatusAsync(int bookId)
+        {
+            var bookForRent = await GetBookByIdAsync(bookId);
+            bookForRent.IsAvailable = false;
+        }
     }
 }

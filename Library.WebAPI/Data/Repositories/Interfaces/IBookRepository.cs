@@ -9,5 +9,7 @@ namespace Library.WebAPI.Data.Repositories.Interfaces
         Task<Book> GetBookByIdAsync(int bookId);
         void DeleteBook(Book bookToRemove);
         Task<bool> BookExistsAsync(int bookId);
+        Task<Book> GetBookByIdForCheckStatusAsync(int bookId);
+        Task SetBookStatusAsync(int bookId);
     }
 }

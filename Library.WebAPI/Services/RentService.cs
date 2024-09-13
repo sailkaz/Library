@@ -8,7 +8,7 @@ namespace Library.WebAPI.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public RentService(IUnitOfWork unitOfWork) 
+        public RentService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
@@ -21,54 +21,32 @@ namespace Library.WebAPI.Services
         public async Task<bool> CheckBookStatus(int bookId)
         {
             var bookForCheck = await _unitOfWork.BookRepository.GetBookByIdAsync(bookId);
-            if (!bookForCheck.IsAvailable) 
-            { 
+            if (!bookForCheck.IsAvailable)
+            {
                 return false;
             }
             return true;
         }
 
-        public async Task StartRentAsync(Rent rentToAdd, int bookId)
+        public async Task StartRentAsync(Rent rentToAdd)
         {
-            //foreach (Book book in rentToAdd.Books) w pierwszej wersji
-            //{
-            //    var bookForRent = await _unitOfWork.BookRepository.GetBookByIdAsync(book.Id);
-            //    bookForRent.IsAvailable = false;
-            //    _unitOfWork.Complete();
-            //};
 
-            //foreach (Book book in rentToAdd.Books) w drugiej wersji
-            //{
-            //    SetBookStatus(book.Id);
-            //}
+            foreach (Book book in rentToAdd.Books)
+            {
+                await SetBookStatus(book.Id);
+            }
 
-            var bookToRent = await _unitOfWork.BookRepository.GetBookByIdAsync(bookId); /* linie 45, 46 i 53 nie są obecne w wersji 1 i 2 */
-            rentToAdd.Books.Add(bookToRent);
             rentToAdd.RentDate = DateTime.Today;
             rentToAdd.ReturnDate = rentToAdd.RentDate.AddMonths(1);
             _unitOfWork.RentRepository.AddRent(rentToAdd);
 
             _unitOfWork.Complete();
-
-            SetBookStatus(rentToAdd.Books);
         }
 
-        //private async Task SetBookStatus(int bookId) w drugiej wersji
-        //{
-        //    var bookForRent = await _unitOfWork.BookRepository.GetBookByIdAsync(bookId);
-        //    bookForRent.IsAvailable = false;
-        //    _unitOfWork.Complete();
-        //}
-
-        /* Poniższa metoda nie występuje w wersji 1 i 2 */
-        private async Task SetBookStatus(List<Book> books)
+        private async Task SetBookStatus(int bookId)
         {
-            foreach (Book book in books) 
-            {
-                var bookForRent = await _unitOfWork.BookRepository.GetBookByIdAsync(book.Id);
-                bookForRent.IsAvailable = false;
-                _unitOfWork.Complete();
-            }
+            await _unitOfWork.BookRepository.SetBookStatusAsync(bookId);
+            _unitOfWork.Complete();
         }
     }
 }

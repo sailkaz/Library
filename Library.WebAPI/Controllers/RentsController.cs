@@ -22,24 +22,17 @@ namespace Library.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<RentDto>> StartRent(RentForCreationDto newRent) 
         {
-            //foreach(BookForRentDto bookForRentDto ) w pierwszej i drugiej wersji
-            //{
-            //    if(!await _rentService.BookExists(bookForRentDto.Id))
-            //        return NotFound($"Sorry, no book with id = {bookForRentDto.Id} was found.");
+            foreach (BookForRentDto bookForRentDto in newRent.Books)
+            {
+                if (!await _rentService.BookExists(bookForRentDto.Id))
+                    return NotFound($"Sorry, no book with id = {bookForRentDto.Id} was found.");
 
-            //    if (!await _rentService.CheckBookStatus(bookForRentDto.Id))
-            //        return NotFound($"Sorry, book with id = {bookForRentDto.Id} isn't available.");
-            //}
-
-            /* linie 35 do 39 nie występują w wersji 1 i 2 */
-            if(!await _rentService.BookExists(newRent.BookId))
-                return NotFound($"Sorry, no book with id = {newRent.BookId} was found.");
-
-            if (!await _rentService.CheckBookStatus(newRent.BookId))
-                return BadRequest($"Sorry, book with id = {newRent.BookId} isn't available.");
+                if (!await _rentService.CheckBookStatus(bookForRentDto.Id))
+                    return NotFound($"Sorry, book with id = {bookForRentDto.Id} isn't available.");
+            }
 
             var rentToAdd = _mapper.Map<Rent>(newRent);
-            await _rentService.StartRentAsync(rentToAdd, newRent.BookId);
+            await _rentService.StartRentAsync(rentToAdd);
 
             /* ten return poniżej też tylko tymczasowo, bo ostatecznie będę chciał zwracać status 201, czyli zrobię to po zaimplementowaniu
              akcji GetRent wykorzystując metodę CreatedAtRoute - tak jak to zrobiłem w innych controllerach.
