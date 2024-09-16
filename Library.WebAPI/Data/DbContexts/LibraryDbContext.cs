@@ -1,4 +1,5 @@
-﻿using Library.WebAPI.Entities;
+﻿using Library.WebAPI.Data.Configurations;
+using Library.WebAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.WebAPI.Data.DbContexts
@@ -15,6 +16,7 @@ namespace Library.WebAPI.Data.DbContexts
         public DbSet<Librarian>? Librarians { get; set; }
         public DbSet<Reader>? Readers { get; set; }
         public DbSet<Rent>? Rents { get; set; }
+        public DbSet<BookRent> BookRents { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,6 +45,10 @@ namespace Library.WebAPI.Data.DbContexts
                 new Rent { Id = 1, LibrarianId = 1, ReaderId = 2, RentDate = new DateTime(2024,02,20), 
                     ReturnDate = new DateTime(2024,03,20) }
                 );
+
+
+            modelBuilder.ApplyConfiguration(new BookConfiguration());
+            modelBuilder.ApplyConfiguration(new BookRentConfiguration());
         }
     }
 }

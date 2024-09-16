@@ -10,6 +10,7 @@ namespace Library.WebAPI.Data.DbContexts
         DbSet<Librarian>? Librarians { get; set; }
         DbSet<Reader>? Readers { get; set; }
         DbSet<Rent>? Rents { get; set; }
+        DbSet<BookRent> BookRents { get; set; }
 
         int SaveChanges();
     }
