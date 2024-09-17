@@ -46,9 +46,6 @@ namespace Library.WebAPI.Controllers
 
             var rentToReturn = _mapper.Map<RentDto>(rentToAdd);
 
-            /* ten return poniżej też tylko tymczasowo, bo ostatecznie będę chciał zwracać status 201, czyli zrobię to po zaimplementowaniu
-             akcji GetRent wykorzystując metodę CreatedAtRoute - tak jak to zrobiłem w innych controllerach.
-            */
             return CreatedAtRoute("GetRent",
                 new { rentId = rentToAdd.Id },
                 rentToReturn);
