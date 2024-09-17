@@ -13,6 +13,25 @@ namespace Library.WebAPI.Services
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
+        public async Task<Rent> GetRentAsync(int rentId)
+        {
+            return await _unitOfWork.RentRepository.GetRentAsync(rentId);
+        }
+
+
+        public async Task StartRentAsync(Rent rentToAdd)
+        {
+
+            foreach (Book book in rentToAdd.Books)
+            {
+                await SetBookStatus(book.Id);
+            }
+
+            _unitOfWork.RentRepository.AddRent(rentToAdd);
+
+            _unitOfWork.Complete();
+        }
+
         public async Task<bool> BookExists(int bookId)
         {
             return await _unitOfWork.BookRepository.BookExistsAsync(bookId);
@@ -26,19 +45,6 @@ namespace Library.WebAPI.Services
                 return false;
             }
             return true;
-        }
-
-        public async Task StartRentAsync(Rent rentToAdd)
-        {
-
-            foreach (Book book in rentToAdd.Books)
-            {
-                await SetBookStatus(book.Id);
-            }
-
-            _unitOfWork.RentRepository.AddRent(rentToAdd);
-
-            _unitOfWork.Complete();
         }
 
         private async Task SetBookStatus(int bookId)

@@ -7,7 +7,7 @@ namespace Library.WebAPI.Models
     {
         public RentDto() 
         {
-            Books = new List<BookDto>();
+            Books = new List<BookWithoutDetailsDto>();
         }
         public int Id { get; set; }
 
@@ -17,12 +17,12 @@ namespace Library.WebAPI.Models
 
         public int ReaderId { get; set; }
 
-        public Reader? Reader { get; set; }
+        public ReaderDto? Reader { get; set; }
 
         public int LibrarianId { get; set; }
 
-        public Librarian? Librarian { get; set; }
+        public LibrarianDto? Librarian { get; set; }
 
-        public List<BookDto> Books { get; set; }
+        public List<BookWithoutDetailsDto> Books { get; set; }
     }
 }

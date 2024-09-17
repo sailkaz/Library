@@ -18,6 +18,15 @@ namespace Library.WebAPI.Data.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        public async Task<Rent?> GetRentAsync(int rentId)
+        {
+            return await _context.Rents
+                .Include(x => x.Reader)
+                .Include(x => x.Librarian)
+                .Include(x => x.Books)
+                .FirstOrDefaultAsync(x => x.Id == rentId);
+        }
+
         public void AddRent(Rent rentToAdd)
         {
             var rentDb = new Rent
@@ -39,10 +48,5 @@ namespace Library.WebAPI.Data.Repositories
                 });
             }
         }
-
-
-
-        
-
     }
 }

@@ -19,6 +19,16 @@ namespace Library.WebAPI.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet ("{rentId}", Name = "GetRent")]
+        public async Task<ActionResult> GetRent(int rentId) 
+        {
+            var response = await _rentService.GetRentAsync(rentId);
+            if(response == null)
+                return NotFound($"Sorry, no rent with id = {rentId} was found.");
+
+            return Ok(_mapper.Map<RentDto>(response));
+        }
+
         [HttpPost]
         public async Task<ActionResult<RentDto>> StartRent(RentForCreationDto newRent) 
         {
@@ -34,10 +44,14 @@ namespace Library.WebAPI.Controllers
             var rentToAdd = _mapper.Map<Rent>(newRent);
             await _rentService.StartRentAsync(rentToAdd);
 
+            var rentToReturn = _mapper.Map<RentDto>(rentToAdd);
+
             /* ten return poniżej też tylko tymczasowo, bo ostatecznie będę chciał zwracać status 201, czyli zrobię to po zaimplementowaniu
              akcji GetRent wykorzystując metodę CreatedAtRoute - tak jak to zrobiłem w innych controllerach.
             */
-            return Ok(newRent);
+            return CreatedAtRoute("GetRent",
+                new { rentId = rentToAdd.Id },
+                rentToReturn);
         }
     }
 }
