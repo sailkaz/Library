@@ -25,14 +25,6 @@ namespace Library.WebAPI.Data.Repositories
                 .FirstOrDefaultAsync(x => x.Id == rentId);
         }
 
-        //public async Task<BookRent?> GetBookRentAsync(int bookId)
-        //{
-        //    var bookRent = await _context.BookRents
-        //        .Include(x => x.Rent.Books)
-        //        .FirstOrDefaultAsync(x => x.BookId == bookId);
-        //    return bookRent;
-        //}
-
         public void AddRent(Rent rentToAdd)
         {
             var rentDb = new Rent
