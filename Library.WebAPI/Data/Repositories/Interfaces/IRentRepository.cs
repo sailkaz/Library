@@ -5,7 +5,8 @@ namespace Library.WebAPI.Data.Repositories.Interfaces
     public interface IRentRepository
     {
         void AddRent(Rent rentToAdd);
-        Task<Rent> GetRentAsync(int rentId);
+        Task<Rent?> GetRentAsync(int rentId);
         void CancelRentAsync(BookRent bookRent);
+        Task<Rent?> GetRentForReaderAsync(int readerId);
     }
 }

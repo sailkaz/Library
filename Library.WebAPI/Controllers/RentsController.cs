@@ -3,6 +3,7 @@ using Library.WebAPI.Entities;
 using Library.WebAPI.Models;
 using Library.WebAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Library.WebAPI.Controllers
 {
@@ -29,9 +30,23 @@ namespace Library.WebAPI.Controllers
             return Ok(_mapper.Map<RentDto>(response));
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetRentForReader(int readerId)
+        {
+            var response = await _rentService.GetRentForReaderAsync(readerId);
+            if (response == null || !response.Books.Any())
+                return NotFound($"Sorry, no active rent for reader with id = {readerId} was found.");
+
+            return Ok(_mapper.Map<RentDto>(response));
+        }
+
         [HttpPost]
         public async Task<ActionResult<RentDto>> StartRent(RentForCreationDto newRent) 
         {
+            var currentRent = await _rentService.GetRentForReaderAsync(newRent.ReaderId);
+            if (currentRent.IsActive)
+                return BadRequest($"Sorry, reader {currentRent.Reader.FirstName} {currentRent.Reader.LastName} hasn't given back all books yet.");
+
             foreach (BookForRentDto bookForRentDto in newRent.Books)
             {
                 if (!await _rentService.BookExists(bookForRentDto.Id))

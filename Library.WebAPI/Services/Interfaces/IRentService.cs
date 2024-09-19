@@ -10,5 +10,6 @@ namespace Library.WebAPI.Services.Interfaces
         Task<Rent> GetRentAsync(int rentId);
         Task StartRentAsync(Rent rentToAdd);
         Task CancelRentOfBookAsync(int bookId);
+        Task<Rent> GetRentForReaderAsync(int readerId);
     }
 }

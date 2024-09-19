@@ -28,6 +28,8 @@ namespace Library.WebAPI.Entities
 
         public Librarian? Librarian { get; set; }
 
+        public bool IsActive { get; set; }
+
         public List<Book> Books { get; set;}
     }
 }

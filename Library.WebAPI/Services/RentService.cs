@@ -72,5 +72,24 @@ namespace Library.WebAPI.Services
                 _unitOfWork.RentRepository.CancelRentAsync(bookRent);
             _unitOfWork.Complete();
         }
+
+        public async Task<Rent> GetRentForReaderAsync(int readerId)
+        {
+            var rent = await _unitOfWork.RentRepository.GetRentForReaderAsync(readerId);
+
+            rent ??= new Rent();
+
+            var bookList = new List<Book>();
+            
+                foreach (var item in rent.Books)
+                {
+                    if (item.IsAvailable == false)
+                        bookList.Add(item);
+                }
+
+            rent.Books = bookList;
+
+            return rent;
+        }
     }
 }

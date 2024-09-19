@@ -32,7 +32,8 @@ namespace Library.WebAPI.Data.Repositories
                 LibrarianId = rentToAdd.LibrarianId,
                 ReaderId = rentToAdd.ReaderId,
                 RentDate = DateTime.Today,
-                ReturnDate = DateTime.Today.AddMonths(1)
+                ReturnDate = DateTime.Today.AddMonths(1),
+                IsActive = true
             };
             _context.Rents.Add(rentDb);
 
@@ -50,6 +51,16 @@ namespace Library.WebAPI.Data.Repositories
         public void CancelRentAsync(BookRent bookRent)
         {
             bookRent.Rent.ReturnDate = DateTime.Today;
+            bookRent.Rent.IsActive = false;
+        }
+
+        public async Task<Rent?> GetRentForReaderAsync(int readerId)
+        {
+            return await _context.Rents
+                .Include(x => x.Books)
+                .Include(x => x.Reader)
+                .Where(x => x.IsActive == true)
+                .FirstOrDefaultAsync(x => x.ReaderId == readerId);
         }
     }
 }
