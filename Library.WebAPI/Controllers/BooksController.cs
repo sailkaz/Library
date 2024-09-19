@@ -20,6 +20,12 @@ namespace Library.WebAPI.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        /// <summary>
+        /// Gets book by a part of title
+        /// </summary>
+        /// <param name="partOfTitle"></param>
+        /// <param name="includeAuthors"></param>
+        /// <returns></returns>
         [HttpGet("{partOfTitle}", Name = "GetBook")]
         public async Task<IActionResult> GetBooksByPartOfTitle(string partOfTitle, bool includeAuthors = false)
         {
@@ -34,6 +40,12 @@ namespace Library.WebAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<BookDto>>(response));
         }
 
+        /// <summary>
+        /// Adds book for a particular author
+        /// </summary>
+        /// <param name="authorId"></param>
+        /// <param name="newBookDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<BookWithoutDetailsDto>> AddBookForAuthor(int authorId, BookForCreationDto newBookDto) 
         {
@@ -54,6 +66,12 @@ namespace Library.WebAPI.Controllers
                 );
         }
 
+        /// <summary>
+        /// Updates a part of book, e.g. description
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <param name="patchDocument"></param>
+        /// <returns></returns>
         [HttpPatch("{bookId}")]
         public async Task<ActionResult> PartiallyUpdateBook(int bookId, JsonPatchDocument<BookForUpdateDto> patchDocument )
         {
@@ -82,6 +100,11 @@ namespace Library.WebAPI.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Removes a particular book
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns></returns>
         [HttpDelete("{bookId}")]
         public async Task<ActionResult> DeleteBook(int bookId)
         {

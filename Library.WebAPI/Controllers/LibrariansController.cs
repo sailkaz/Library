@@ -18,6 +18,11 @@ namespace Library.WebAPI.Controllers
             _librarianService = librarianService ?? throw new ArgumentNullException(nameof(librarianService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
+
+        /// <summary>
+        /// Gets all librarians
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LibrarianDto>>> GetLibrarians()
         {
@@ -27,6 +32,11 @@ namespace Library.WebAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<LibrarianDto>>(response));
         }
 
+        /// <summary>
+        /// Gets a particular librarian by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = "GetLibrarian")]
         public async Task<ActionResult<LibrarianDto>> GetLibrarianById(int id)
         {
@@ -36,6 +46,11 @@ namespace Library.WebAPI.Controllers
             return Ok(_mapper.Map<LibrarianDto>(response));
         }
 
+        /// <summary>
+        /// Adds a new librarian
+        /// </summary>
+        /// <param name="newLibrarianDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult<LibrarianDto> AddLibrarian(LibrarianForCreationDto newLibrarianDto)
         {
@@ -53,6 +68,12 @@ namespace Library.WebAPI.Controllers
                 );
         }
 
+        /// <summary>
+        /// Updates a particular librarian
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="librarianForUpdateDto"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateLibrarian(int id, LibrarianForUpdateDto librarianForUpdateDto)
         {
@@ -67,6 +88,11 @@ namespace Library.WebAPI.Controllers
             return Ok($"Librarian {librarianDao.FirstName} {librarianDao.LastName} has been updated.");
         }
 
+        /// <summary>
+        /// Removes a particular librarian
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteLibrarian(int id) 
         {

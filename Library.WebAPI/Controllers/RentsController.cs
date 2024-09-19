@@ -20,6 +20,11 @@ namespace Library.WebAPI.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Gets a particular rent with a reader, a librarian and a list of books
+        /// </summary>
+        /// <param name="rentId"></param>
+        /// <returns></returns>
         [HttpGet ("{rentId}", Name = "GetRent")]
         public async Task<ActionResult> GetRent(int rentId) 
         {
@@ -30,6 +35,11 @@ namespace Library.WebAPI.Controllers
             return Ok(_mapper.Map<RentDto>(response));
         }
 
+        /// <summary>
+        /// Gets a list of books that reader hasn't returned yet
+        /// </summary>
+        /// <param name="readerId"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> GetRentForReader(int readerId)
         {
@@ -40,6 +50,11 @@ namespace Library.WebAPI.Controllers
             return Ok(_mapper.Map<RentDto>(response));
         }
 
+        /// <summary>
+        /// Starts a new rent for a particular reader
+        /// </summary>
+        /// <param name="newRent"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<RentDto>> StartRent(RentForCreationDto newRent) 
         {
@@ -66,6 +81,11 @@ namespace Library.WebAPI.Controllers
                 rentToReturn);
         }
 
+        /// <summary>
+        /// Ends rent for a particular book
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<ActionResult> CancelRentOfBook(int bookId)
         {

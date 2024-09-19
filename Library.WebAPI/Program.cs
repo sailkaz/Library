@@ -5,6 +5,8 @@ using Library.WebAPI.Data.Repositories.Interfaces;
 using Library.WebAPI.Services;
 using Library.WebAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,10 +24,7 @@ builder.Services.AddScoped<ILibraryDbContext, LibraryDbContext>();
 builder.Services.AddControllers(options =>
 {
     options.ReturnHttpNotAcceptable = true;
-}).AddNewtonsoftJson(/*x =>
-x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
-.AddJsonOptions(x =>
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles*/)
+}).AddNewtonsoftJson()
 .AddXmlDataContractSerializerFormatters();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -36,14 +35,20 @@ builder.Services.AddScoped<IReaderService, ReaderService>();
 builder.Services.AddScoped<IRentService, RentService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-  
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+    options.IncludeXmlComments(xmlCommentsFullPath);
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(); 
+    app.UseSwagger();
     app.UseSwaggerUI();
 }
 

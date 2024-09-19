@@ -19,7 +19,10 @@ namespace Library.WebAPI.Controllers
             _authorService = authorService ?? throw new ArgumentNullException(nameof(authorService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-
+        /// <summary>
+        /// Gets all authors
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AuthorDto>>> GetAuthors()
         {
@@ -31,6 +34,11 @@ namespace Library.WebAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<AuthorDto>>(response));
         }
 
+        /// <summary>
+        /// Gets all authors with a specific last name
+        /// </summary>
+        /// <param name="lastName"></param>
+        /// <returns></returns>
         [HttpGet("{lastName}")]
         public async Task<ActionResult<IEnumerable<AuthorWithBooksDto>>> GetAuthorsByName(string lastName)
         {
@@ -42,6 +50,13 @@ namespace Library.WebAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<AuthorWithBooksDto>>(response));
         }
 
+
+        /// <summary>
+        /// Gets a particular author
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="lastName"></param>
+        /// <returns></returns>
         [HttpGet("{id}/{lastName}", Name = "GetAuthor")]
         public async Task<ActionResult<AuthorWithBooksDto>> GetAuthor(int id, string lastName)
         {
@@ -54,6 +69,11 @@ namespace Library.WebAPI.Controllers
             return Ok(_mapper.Map<AuthorWithBooksDto>(response));
         }
 
+        /// <summary>
+        /// Adds new author
+        /// </summary>
+        /// <param name="newAuthorDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult<AuthorDto> AddAuthor(AuthorForCreationDto newAuthorDto)
         {
@@ -71,6 +91,13 @@ namespace Library.WebAPI.Controllers
                 authorToReturn);
         }
 
+
+        /// <summary>
+        /// Adds new author for a particular book
+        /// </summary>
+        /// <param name="bookId"></param>
+        /// <param name="newAuthorDto"></param>
+        /// <returns></returns>
         [HttpPost("{bookId}")]
         public async Task<ActionResult<AuthorDto>> AddAuthorForBook(int bookId, AuthorForCreationDto newAuthorDto)
         {
@@ -91,6 +118,12 @@ namespace Library.WebAPI.Controllers
                 authorToReturn);
         }
 
+        /// <summary>
+        /// Updates a particular author
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="authorForUpdateDto"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateAuthor(int id, AuthorForUpdateDto authorForUpdateDto)
         {
@@ -106,6 +139,11 @@ namespace Library.WebAPI.Controllers
             return Ok($"Author {authorDao.FirstName} {authorDao.LastName} has been updated.");
         }
 
+        /// <summary>
+        /// Removes a particular author
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAuthor(int id)
         {

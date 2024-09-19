@@ -21,6 +21,13 @@ namespace Library.WebAPI.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+
+
+
+        /// <summary>
+        /// Gets all readers
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ReaderDto>>> GetReaders()
         {
@@ -32,6 +39,11 @@ namespace Library.WebAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<ReaderDto>>(response));
         }
 
+        /// <summary>
+        /// Gets all readers with a specific last name
+        /// </summary>
+        /// <param name="lastName"></param>
+        /// <returns></returns>
         [HttpGet("{lastName}")]
         public async Task<ActionResult<IEnumerable<ReaderDto>>> GetReadersByName(string lastName)
         {
@@ -43,6 +55,12 @@ namespace Library.WebAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<ReaderDto>>(response));
         }
 
+        /// <summary>
+        /// Gets a particular reader
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="lastName"></param>
+        /// <returns></returns>
         [HttpGet("{id}/{lastName}", Name = "GetReader")]
         public async Task<ActionResult<ReaderDto>> GetReader(int id, string lastName)
         {
@@ -55,6 +73,11 @@ namespace Library.WebAPI.Controllers
             return Ok(_mapper.Map<ReaderDto>(response));
         }
 
+        /// <summary>
+        /// Adds a new reader
+        /// </summary>
+        /// <param name="newReaderDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult<ReaderDto> AddReader(ReaderForCreationDto newReaderDto)
         {
@@ -74,6 +97,12 @@ namespace Library.WebAPI.Controllers
                 );
         }
 
+        /// <summary>
+        /// Updates a particular reader
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="readerForUpdateDto"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateReader(int id, ReaderForUpdateDto readerForUpdateDto)
         {
@@ -89,6 +118,11 @@ namespace Library.WebAPI.Controllers
             return Ok($"Reader {readerDao.FirstName} {readerDao.LastName} has been updated.");
         }
 
+        /// <summary>
+        /// Removes a particular reader
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteReader(int id)
         {
