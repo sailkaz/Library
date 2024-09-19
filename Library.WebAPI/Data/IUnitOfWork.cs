@@ -5,6 +5,7 @@ namespace Library.WebAPI.Data
     public interface IUnitOfWork
     {
         public IAuthorRepository AuthorRepository { get; }
+        public IBookRentsRepository BookRentsRepository { get; }
         public IBookRepository BookRepository { get; }
         public ILibrarianRepository LibrarianRepository { get; }
         public IReaderRepository ReaderRepository { get; }

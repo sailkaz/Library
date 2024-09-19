@@ -10,8 +10,6 @@ namespace Library.WebAPI.Data.Repositories
     {
         private readonly ILibraryDbContext _context;
 
-        public DateTime ReturnDate { get; private set; }
-        public object RentDate { get; private set; }
 
         public RentRepository(ILibraryDbContext context)
         {
@@ -26,6 +24,14 @@ namespace Library.WebAPI.Data.Repositories
                 .Include(x => x.Books)
                 .FirstOrDefaultAsync(x => x.Id == rentId);
         }
+
+        //public async Task<BookRent?> GetBookRentAsync(int bookId)
+        //{
+        //    var bookRent = await _context.BookRents
+        //        .Include(x => x.Rent.Books)
+        //        .FirstOrDefaultAsync(x => x.BookId == bookId);
+        //    return bookRent;
+        //}
 
         public void AddRent(Rent rentToAdd)
         {
@@ -47,6 +53,11 @@ namespace Library.WebAPI.Data.Repositories
                     Rent = rentDb,
                 });
             }
+        }
+
+        public void CancelRentAsync(BookRent bookRent)
+        {
+            bookRent.Rent.ReturnDate = DateTime.Today;
         }
     }
 }

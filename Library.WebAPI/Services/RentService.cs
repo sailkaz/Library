@@ -52,5 +52,25 @@ namespace Library.WebAPI.Services
             await _unitOfWork.BookRepository.SetBookStatusAsync(bookId);
             _unitOfWork.Complete();
         }
+
+        public async Task<Book> GetBookByIdAsync(int bookId)
+        {
+            return await _unitOfWork.BookRepository.GetBookByIdAsync(bookId);
+        }
+
+        public async Task CancelRentOfBookAsync(int bookId)
+        {
+            int a = 0;
+            await SetBookStatus(bookId);
+            var bookRent = await _unitOfWork.BookRentsRepository.GetBookRentAsync(bookId);
+            foreach (var item in bookRent.Rent.Books)
+            {
+                if (item.IsAvailable == true)
+                    a++;
+            }
+            if (a == bookRent.Rent.Books.Count)
+                _unitOfWork.RentRepository.CancelRentAsync(bookRent);
+            _unitOfWork.Complete();
+        }
     }
 }

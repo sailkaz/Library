@@ -11,6 +11,7 @@ namespace Library.WebAPI.Data
         {
             _context = context;
             AuthorRepository = new AuthorRepository(context);
+            BookRentsRepository = new BookRentsRepository(context);
             BookRepository = new BookRepository(context);
             LibrarianRepository = new LibrarianRepository(context);
             ReaderRepository = new ReaderRepository(context);
@@ -18,6 +19,8 @@ namespace Library.WebAPI.Data
         }
 
         public IAuthorRepository AuthorRepository { get; set; }
+
+        public IBookRentsRepository BookRentsRepository { get; set; }
 
         public IBookRepository BookRepository { get; set; }
 

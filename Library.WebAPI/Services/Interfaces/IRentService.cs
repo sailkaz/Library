@@ -6,7 +6,9 @@ namespace Library.WebAPI.Services.Interfaces
     {
         Task<bool> BookExists(int id);
         Task<bool> CheckBookStatus(int id);
+        Task<Book> GetBookByIdAsync(int bookId);
         Task<Rent> GetRentAsync(int rentId);
         Task StartRentAsync(Rent rentToAdd);
+        Task CancelRentOfBookAsync(int bookId);
     }
 }

@@ -23,7 +23,7 @@ namespace Library.WebAPI.Data.Repositories
                 .Where(x => x.Title.Contains(partOfTitle))
                 .ToListAsync();
             }
-            
+
             return await _context.Books
                 .Where(x => x.Title.Contains(partOfTitle))
                 .ToListAsync();
@@ -51,8 +51,10 @@ namespace Library.WebAPI.Data.Repositories
 
         public async Task SetBookStatusAsync(int bookId)
         {
-            var bookForRent = await GetBookByIdAsync(bookId);
-            bookForRent.IsAvailable = false;
+            var bookToSetStatus = await GetBookByIdAsync(bookId);
+            if (bookToSetStatus.IsAvailable == true)
+                bookToSetStatus.IsAvailable = false;
+            else bookToSetStatus.IsAvailable = true;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Library.WebAPI.Controllers
                     return NotFound($"Sorry, no book with id = {bookForRentDto.Id} was found.");
 
                 if (!await _rentService.CheckBookStatus(bookForRentDto.Id))
-                    return NotFound($"Sorry, book with id = {bookForRentDto.Id} isn't available.");
+                    return BadRequest($"Sorry, book with id = {bookForRentDto.Id} isn't available.");
             }
 
             var rentToAdd = _mapper.Map<Rent>(newRent);
@@ -49,6 +49,22 @@ namespace Library.WebAPI.Controllers
             return CreatedAtRoute("GetRent",
                 new { rentId = rentToAdd.Id },
                 rentToReturn);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> CancelRentOfBook(int bookId)
+        {
+            var bookToCancelRent = await _rentService.GetBookByIdAsync(bookId);
+
+            if(bookToCancelRent == null) 
+                return NotFound($"Sorry, no book with id = {bookId} was found.");
+
+            if (bookToCancelRent.IsAvailable == true)
+                return BadRequest($"Sorry, book with id = {bookId} is still available.");
+
+            await _rentService.CancelRentOfBookAsync(bookId);
+
+            return Ok($"Rent of book with id = {bookId} has been canceled.");
         }
     }
 }
