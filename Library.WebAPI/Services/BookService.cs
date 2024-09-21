@@ -14,7 +14,6 @@ namespace Library.WebAPI.Services
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-
         public async Task<IEnumerable<Book>> GetBooksByPartOfTitleAsync(string partOfTitle, bool includeAuthors)
         {
             return await _unitOfWork.BookRepository.GetBooksByPartOfTitleAsync(partOfTitle, includeAuthors);
@@ -48,5 +47,4 @@ namespace Library.WebAPI.Services
             return await _unitOfWork.AuthorRepository.AuthorExistsAsync(authorId);
         }
     }
-
 }

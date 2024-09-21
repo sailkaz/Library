@@ -8,7 +8,6 @@ namespace Library.WebAPI.Profiles
         {
             CreateMap<Models.RentForCreationDto, Entities.Rent>();
             CreateMap<Entities.Rent, Models.RentDto>();
-        }
-        
+        }       
     }
 }

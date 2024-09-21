@@ -14,7 +14,6 @@ namespace Library.WebAPI.Data.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-
         public async Task<IEnumerable<Librarian>> GetLibrariansAsync()
         {
             return await _context.Librarians

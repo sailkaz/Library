@@ -10,7 +10,6 @@ namespace Library.WebAPI.Data
         public ILibrarianRepository LibrarianRepository { get; }
         public IReaderRepository ReaderRepository { get; }
         public IRentRepository RentRepository { get; }
-
         void Complete();
     }
 }

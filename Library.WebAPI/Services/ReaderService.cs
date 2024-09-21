@@ -13,7 +13,6 @@ namespace Library.WebAPI.Services
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-
         public async Task<IEnumerable<Reader>> GetReadersAsync()
         {
             return await _unitOfWork.ReaderRepository.GetReadersAsync();
@@ -23,6 +22,7 @@ namespace Library.WebAPI.Services
         {
             return await _unitOfWork.ReaderRepository.GetReadersByNameAsync(lastName);
         }
+
         public async Task<Reader> GetReaderAsync(int id, string lastName)
         {
             return await _unitOfWork.ReaderRepository.GetReaderAsync(id, lastName);

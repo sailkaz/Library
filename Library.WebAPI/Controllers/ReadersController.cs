@@ -21,9 +21,6 @@ namespace Library.WebAPI.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-
-
-
         /// <summary>
         /// Gets all readers
         /// </summary>

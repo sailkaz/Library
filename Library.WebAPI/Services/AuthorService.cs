@@ -27,6 +27,7 @@ namespace Library.WebAPI.Services
         {
             return await _unitOfWork.AuthorRepository.GetAuthorAsync(id, lastName);
         }
+
         public async Task<Author> GetAuthorByIdAsync(int id)
         {
             return await _unitOfWork.AuthorRepository.GetAuthorByIdAsync(id);

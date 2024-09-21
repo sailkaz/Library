@@ -13,11 +13,11 @@ namespace Library.WebAPI.Services
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-
         public async Task<IEnumerable<Librarian>> GetLibrariansAsync()
         {
             return await _unitOfWork.LibrarianRepository.GetLibrariansAsync();
         }
+
         public async Task<Librarian> GetLibrarianByIdAsync(int id)
         {
             return await _unitOfWork.LibrarianRepository.GetLibrarianByIdAsync(id);

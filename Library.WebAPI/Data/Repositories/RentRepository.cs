@@ -10,7 +10,6 @@ namespace Library.WebAPI.Data.Repositories
     {
         private readonly ILibraryDbContext _context;
 
-
         public RentRepository(ILibraryDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -36,7 +35,6 @@ namespace Library.WebAPI.Data.Repositories
                 IsActive = true
             };
             _context.Rents.Add(rentDb);
-
 
             foreach (var item in rentToAdd.Books)
             {

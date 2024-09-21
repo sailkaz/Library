@@ -11,7 +11,6 @@ namespace Library.WebAPI.Data.DbContexts
         DbSet<Reader>? Readers { get; set; }
         DbSet<Rent>? Rents { get; set; }
         DbSet<BookRent> BookRents { get; set; }
-
         int SaveChanges();
     }
 }

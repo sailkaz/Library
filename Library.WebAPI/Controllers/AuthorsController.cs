@@ -19,6 +19,7 @@ namespace Library.WebAPI.Controllers
             _authorService = authorService ?? throw new ArgumentNullException(nameof(authorService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
+
         /// <summary>
         /// Gets all authors
         /// </summary>
@@ -49,7 +50,6 @@ namespace Library.WebAPI.Controllers
 
             return Ok(_mapper.Map<IEnumerable<AuthorWithBooksDto>>(response));
         }
-
 
         /// <summary>
         /// Gets a particular author
@@ -90,7 +90,6 @@ namespace Library.WebAPI.Controllers
                 },
                 authorToReturn);
         }
-
 
         /// <summary>
         /// Adds new author for a particular book

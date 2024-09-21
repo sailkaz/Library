@@ -18,7 +18,6 @@ namespace Library.WebAPI.Services
             return await _unitOfWork.RentRepository.GetRentAsync(rentId);
         }
 
-
         public async Task StartRentAsync(Rent rentToAdd)
         {
 
