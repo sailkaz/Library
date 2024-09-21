@@ -60,15 +60,15 @@ namespace Library.WebAPI.Services
 
         public async Task CancelRentOfBookAsync(int bookId)
         {
-            int a = 0;
+            int numberOfRentedBooks = 0;
             await SetBookStatus(bookId);
             var bookRent = await _unitOfWork.BookRentsRepository.GetBookRentAsync(bookId);
             foreach (var item in bookRent.Rent.Books)
             {
-                if (item.IsAvailable == true)
-                    a++;
+                if (item.IsAvailable)
+                    numberOfRentedBooks++;
             }
-            if (a == bookRent.Rent.Books.Count)
+            if (numberOfRentedBooks == bookRent.Rent.Books.Count)
                 _unitOfWork.RentRepository.CancelRentAsync(bookRent);
             _unitOfWork.Complete();
         }
